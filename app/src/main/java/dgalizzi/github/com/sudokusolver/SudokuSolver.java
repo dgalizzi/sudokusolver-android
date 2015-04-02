@@ -42,14 +42,33 @@ public class SudokuSolver extends ActionBarActivity implements View.OnClickListe
 
 
         mButtons = new Button[9][9];
-        for (int i = 0; i < 9; i ++)
-        {
+        for (int i = 0; i < 9; i ++) {
             for (int j = 0; j < 9; j ++) {
                 Button b = (Button) ((ViewGroup) v[i]).getChildAt(j);
                 b.setText(String.valueOf(i) + '_' + String.valueOf(j));
-                //b.setText("");
-
+                //b.setText("");b.setHeight(b.getWidth());
                 mButtons[i][j] = b;
+
+                b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Button b = (Button) v;
+                        String s = b.getText().toString();
+                        int n;
+                        if (s == "") {
+                            n = 1;
+                        } else {
+                            n = Integer.parseInt(s);
+                            n++;
+                        }
+                        if (n == 10) {
+                            n = 0;
+                            b.setText(String.valueOf(""));
+                        } else {
+                            b.setText(String.valueOf(n));
+                        }
+                    }
+                });
             }
         }
         //onClear();
@@ -61,14 +80,17 @@ public class SudokuSolver extends ActionBarActivity implements View.OnClickListe
         // Test case
         String case1 = "040702800000000209928040000003807010000020000070901400000050193506000000009104085";
         String case_solution = "145792836367518249928643571453867912891425367672931458784256193516389724239174685";
+
+        String case2 = "000400800000300000380070049470020300900000005005040096690080057000004000007005000";
+        case1 = case2;
         //case1 = case_solution;
         int n;
         for (int i = 0; i < case1.length(); i ++) {
             n = Integer.parseInt(String.valueOf(case1.charAt(i)));
             if (n != 0)
-                mButtons[(i/9)][i%9].setText(String.valueOf(n));
+                mButtons[i/9][i%9].setText(String.valueOf(n));
             else
-                mButtons[(i/9)][i%9].setText("");
+                mButtons[i/9][i%9].setText("");
         }
     }
 
@@ -99,13 +121,17 @@ public class SudokuSolver extends ActionBarActivity implements View.OnClickListe
             }
         }
 
-        //Toast.makeText(this, mSolver.isValid(sudoku) ? "Valid" : "Not valid", Toast.LENGTH_SHORT).show();
 
-        mSolver.Solve(sudoku);
-        for (int i = 0; i < 9; i ++) {
-            for (int j = 0; j < 9; j++) {
-                mButtons[i][j].setText(String.valueOf(sudoku[i][j]));
+
+        if (mSolver.Solve(sudoku)) {
+
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    mButtons[i][j].setText(String.valueOf(sudoku[i][j]));
+                }
             }
+        } else {
+            Toast.makeText(this, "No solution", Toast.LENGTH_LONG).show();
         }
 
     }

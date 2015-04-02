@@ -26,30 +26,20 @@ public class Solver {
         return false;
     }
 
-    private void Solve() {
+    private boolean Solve() {
         int[][] initial = new int[9][9];
         for (int i = 0; i < 9; i ++)
             for (int j = 0; j < 9; j ++)
                 initial[i][j] = mSudoku[i][j];
-        Solve(0, 0, initial);
-        /*
-        for (int i = 0; i < 9; i ++) {
-            for (int j = 0; j < 9; j ++) {
-                if (initial[i][j] != 0) continue;
-                for (int k = 1; k <= 9; k++) {
-                    mSudoku[i][j] = k;
-
-                }
-            }
-        }*/
+        return Solve(0, 0, initial);
     }
 
-    public void Solve(int[][] sudoku) {
+    public boolean Solve(int[][] sudoku) {
         mSudoku = sudoku;
         if (!isValid())
-            return; // TODO: Throw exception?
+            return false; // TODO: Throw exception?
 
-        Solve();
+        return Solve();
     }
 
     public boolean isValid() {
