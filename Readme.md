@@ -5,9 +5,11 @@ Click the cells to setup the initial board. Then click the Solve button to get a
 **Screenshots**
 
 Unsolved sudoku:
+
 ![Unsolved sudoku](/screen_unsolved.png?raw=true)
 
 Solved sudoku after pressing the Solve button:
+
 ![Solved sudoku](/screen_solved.png?raw=true)
 
 
