@@ -4,36 +4,43 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 
 public class SudokuSolver extends ActionBarActivity {
+
+    Button mButtons[][];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku_solver);
-    }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_sudoku_solver, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        int[] linear_layout_ids = {R.id.buttons_1, R.id.buttons_2, R.id.buttons_3,
+                                   R.id.buttons_4, R.id.buttons_5, R.id.buttons_6,
+                                   R.id.buttons_7, R.id.buttons_8, R.id.buttons_9};
+        LinearLayout[] v = new LinearLayout[9];
+        for (int i = 0; i < linear_layout_ids.length; i++) {
+            v[i] = (LinearLayout) findViewById(linear_layout_ids[i]);
         }
 
-        return super.onOptionsItemSelected(item);
+
+
+        mButtons = new Button[9][9];
+        for (int i = 0; i < 9; i ++)
+        {
+            for (int j = 0; j < 9; j ++) {
+                Button b = (Button) ((ViewGroup) v[i]).getChildAt(j);
+                //b.setText(String.valueOf(j + 1));
+                b.setText("");
+
+                mButtons[i][j] = b;
+            }
+        }
     }
+
+
 }
