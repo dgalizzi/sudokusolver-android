@@ -9,19 +9,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import static android.widget.Toast.*;
 
 
 public class SudokuSolver extends ActionBarActivity implements View.OnClickListener {
 
-    Button mButtons[][];
+    Button[][] mButtons;
     Button mClearButton;
     Button mSolveButton;
+
+    Solver mSolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku_solver);
 
+        mSolver = new Solver();
         mClearButton = (Button) findViewById(R.id.clear_button);
         mSolveButton = (Button) findViewById(R.id.solve_button);
 
@@ -49,6 +55,21 @@ public class SudokuSolver extends ActionBarActivity implements View.OnClickListe
         //onClear();
 
         mClearButton.setOnClickListener(this);
+        mSolveButton.setOnClickListener(this);
+
+
+        // Test case
+        String case1 = "040702800000000209928040000003807010000020000070901400000050193506000000009104085";
+        String case_solution = "145792836367518249928643571453867912891425367672931458784256193516389724239174685";
+        //case1 = case_solution;
+        int n;
+        for (int i = 0; i < case1.length(); i ++) {
+            n = Integer.parseInt(String.valueOf(case1.charAt(i)));
+            if (n != 0)
+                mButtons[(i/9)][i%9].setText(String.valueOf(n));
+            else
+                mButtons[(i/9)][i%9].setText("");
+        }
     }
 
     public void onClick(View v) {
@@ -57,8 +78,36 @@ public class SudokuSolver extends ActionBarActivity implements View.OnClickListe
                 onClear();
                 break;
             case R.id.solve_button:
+                onSolve();
                 break;
         }
+    }
+
+    private void onSolve() {
+        int [][] sudoku = new int[9][9];
+        String s;
+        int n;
+        for (int i = 0; i < 9; i ++) {
+            for (int j = 0; j < 9; j++) {
+                s = mButtons[i][j].getText().toString();
+                if (s == "") {
+                    n = 0;
+                } else {
+                    n = Integer.parseInt(s);
+                }
+                sudoku[i][j] = n;
+            }
+        }
+
+        //Toast.makeText(this, mSolver.isValid(sudoku) ? "Valid" : "Not valid", Toast.LENGTH_SHORT).show();
+
+        mSolver.Solve(sudoku);
+        for (int i = 0; i < 9; i ++) {
+            for (int j = 0; j < 9; j++) {
+                mButtons[i][j].setText(String.valueOf(sudoku[i][j]));
+            }
+        }
+
     }
 
     public void onClear() {
