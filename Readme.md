@@ -9,3 +9,9 @@ Unsolved sudoku:
 Solved sudoku after pressing the Solve button:
 ![Solved sudoku](/screen_solved.png?raw=true)
 
+
+**TODO:**
+
+- Landscape layout.
+- Better input.
+- Different color for initial unsolved board cells.
